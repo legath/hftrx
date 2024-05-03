@@ -35,7 +35,7 @@
 void xcz_resetn_modem_state(uint8_t val);
 void ft8_thread(void);
 void lvgl_init(void);
-void lvgl_test(void);
+void main_window_init(void);
 
 enum {
 	rx_fir_shift_pos 	= 0,
@@ -718,7 +718,7 @@ void linux_user_init(void)
 	linux_init_cond(ct_iq);
 
 #if WITHLVGL
-	lvgl_test();
+	main_window_init();
 #endif /* WITHLVGL */
 }
 

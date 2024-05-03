@@ -225,6 +225,7 @@
 		#define WITHFFTSIZEAF 		512		/* Отображение спектра НЧ сигнвлв */
 		#define WITHAA				1		/* Поддержка сглаживания изображений */
 		#if 1
+//			#define WITHLVGL				1
 			#define REALREFERENCE_FREQ 		61439600L
 			#define WITHTOUCHGUI			1
 			#define WITHGUIDEBUG			1	/* вывод отладочной информации на экран по удержанию Break-In */

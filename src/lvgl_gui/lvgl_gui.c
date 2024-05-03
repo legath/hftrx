@@ -162,21 +162,6 @@ void lvgl_task1_cb(lv_timer_t * tmr)
 	lv_img_set_src(img1, & wfl);
 }
 
-
-static void event_handler_btn1(lv_event_t * event)
-{
-	lv_obj_t * btn = lv_event_get_target(event);
-	el_data_t * us = (el_data_t *) lv_obj_get_user_data(btn);
-
-	PRINTF("%s\n", us->name);
-
-
-//	lv_obj_t * label = lv_obj_get_child(btn, 0);
-//	hamradio_change_preamp();
-//	TP();
-//	lv_obj_del(win);
-}
-
 lv_obj_t * window_create(lv_obj_t * parent, lv_coord_t w, lv_coord_t h)
 {
 	lv_obj_t * win = lv_obj_create(parent);
@@ -189,21 +174,25 @@ lv_obj_t * window_create(lv_obj_t * parent, lv_coord_t w, lv_coord_t h)
 	return win;
 }
 
-void footer_buttons_init(void)
+static void event_handler_btnfooter(lv_event_t * event)
 {
-	static lv_obj_t * fbtn[9];
-	uint16_t x = 1, y = DIM_Y - 45;
+	lv_obj_t * btn = lv_event_get_target(event);
+	el_data_t * us = (el_data_t *) lv_obj_get_user_data(btn);
 
-	for (int i = 0; i < 9; i ++)
-	{
-		char b[30];
-		snprintf(b, ARRAY_SIZE(b), "btn_footer%d", i);
-		fbtn[i] = button_create(main_page, x, y, b, b, & style_footer_button, event_handler_btn1);
-		x = x + 3 + 86;
-	}
+	PRINTF("%s\n", us->name);
+
+	if (! strcmp(us->name, "btn_Bands"))
+		window_create(main_page, 300, 200);
+
+
+
+//	lv_obj_t * label = lv_obj_get_child(btn, 0);
+//	hamradio_change_preamp();
+//	TP();
+//	lv_obj_del(win);
 }
 
-void lvgl_test(void)
+void main_window_init(void)
 {
 	wfl_init();
 
@@ -220,10 +209,8 @@ void lvgl_test(void)
 //	lv_img_set_antialias(img1, true);
 //	lv_img_set_zoom(img1, 255);
 
-	footer_buttons_init();
-
-//	win = window_create(main_page, 300, 200);
-//	lv_obj_t * btn = button_create(win, 0, 0, "Preamp", & style_footer_button, event_handler_btn1);
+	//	win = window_create(main_page, 300, 200);
+//	lv_obj_t * btn = button_create(win, 0, 0, "Preamp", & style_footer_button, event_handler_btnfooter);
 
 	wfl.header.cf = LV_IMG_CF_TRUE_COLOR_ALPHA;
 	wfl.header.always_zero = 0;
@@ -235,6 +222,18 @@ void lvgl_test(void)
 	static lv_timer_t * lvgl_task1;
 	lvgl_task1 = lv_timer_create(lvgl_task1_cb, 1, NULL);
 	lv_timer_set_repeat_count(lvgl_task1, -1);
+
+	uint16_t x = 1, y = DIM_Y - 45;
+
+	button_create(main_page, x, y, 		 "btn_txrx", 	"TX", 				& style_footer_button, event_handler_btnfooter);
+	button_create(main_page, x += 89, y, "btn_Bands", 	"Bands", 			& style_footer_button, event_handler_btnfooter);
+	button_create(main_page, x += 89, y, "btn_Memory", 	"Memory", 			& style_footer_button, event_handler_btnfooter);
+	button_create(main_page, x += 89, y, "btn_Receive", "Receive\noptions", & style_footer_button, event_handler_btnfooter);
+	button_create(main_page, x += 89, y, "btn_notch", 	"", 				& style_footer_button, event_handler_btnfooter);
+	button_create(main_page, x += 89, y, "btn_speaker", "Speaker\non air", 	& style_footer_button, event_handler_btnfooter);
+	button_create(main_page, x += 89, y, "btn_ft8", 	"", 				& style_footer_button, event_handler_btnfooter);
+	button_create(main_page, x += 89, y, "btn_2", 		"", 				& style_footer_button, event_handler_btnfooter);
+	button_create(main_page, x += 89, y, "btn_Options", "Options", 			& style_footer_button, event_handler_btnfooter);
 }
 
 #endif /* LINUX_SUBSYSTEM && WITHLVGL */
